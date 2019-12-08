@@ -25,18 +25,29 @@
 </html>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    function reqListener () {
-      console.log(this.responseText);
-    }
-    
     var oReq = new XMLHttpRequest();
 
     document.getElementById("action-button").addEventListener("click", () => {
       console.log("#action-button has been pressed");
       
-      oReq.addEventListener("load", reqListener);
+      oReq.addEventListener("load", () => {
+        console.log(this.responseText);
+      });
+
+      oReq.addEventListener("progress", () => {
+        console.log("updateProgress");
+      });
+
+      oReq.addEventListener("error", () => {
+        console.log("transferFailed");
+      });
+
+      oReq.addEventListener("abort", () => {
+        console.log("transferCanceled");
+      });
+
       oReq.open("GET", "http://http://localhost:8080/");
       oReq.send();
-    })
+    });
   });
 </script>
